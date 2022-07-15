@@ -1,0 +1,233 @@
+<!--Pagina principal-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaginaPrincipal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="css/bootstrap.min.css"  rel="stylesheet">
+    <link href="css/estilos.css" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <script src="{% static 'js/funciones.js' %}"></script>
+    
+    <style>
+        body{
+            font-family: sans-serif;
+            
+        }
+
+        .container{
+            width: 400px;
+        
+        }
+    </style>
+
+<script>
+
+    function Mover(obj)
+    {
+        
+        obj.style.background="#800080";
+       
+    }
+
+    function MoverFuera(obj)
+    {
+        
+        obj.style.background= "black";
+        
+    }
+
+</script>
+    
+
+</head>
+  <body class="inicio">
+
+
+    {% load static %}
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4" id="barraNav">
+          <img src="{% static 'img/planta.png' %}" alt="logoPlanta" width="40px">
+      </a>
+      <!-- botón hamburguesa -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">  
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'Maceta_principal' %}">Jardinería</a>
+                </li>
+                <li class="nav-item">
+                      <a class="nav-link" href="{% url 'somos' %}">Quiénes Somos</a>
+                  </li>
+                <li class="nav-item">
+                      <a class="nav-link" href="{% url 'galería' %}">Galería</a>
+                  </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contactos' %}">Contáctenos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'api_trabajos' %}">Sobre Nuestros Envios</a>
+                </li>
+    
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'mostrarCL' %}">Clientes</a>
+                </li>
+    
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'MostrarPr' %}">Productos</a>
+                </li>
+    
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'tienda' %}">Tienda</a>
+                </li>
+    
+                {% if user.is_authenticated %}
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{%  url 'logout' %}">Cerrar Sesión</a>
+                </li>
+    
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Bienvenido @{{user.username}}</a>
+                </li>
+                {% else %} 
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+                </li>
+    
+                </ul>
+                <div>
+                <a class="nav-link" href="{% url 'registrar' %}" id="userBookStop">
+                  Registrarse</a>
+                </div>
+                {% endif %}
+    
+          
+          </div>
+        </nav> 
+    {% load crispy_forms_tags %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <div class="card-body" onmouseover="Mover(this)" onmouseout="MoverFuera(this)">
+            <h1>Iniciar Sesion</h1>
+            
+                        <form action="#" method="post">
+
+                            {% csrf_token %}
+                            
+                            {{form | crispy}}
+                                                 
+                            <a href="{% url 'Maceta_principal' %}">Ir a Pagina Principal</a> |
+                            <a href="{% url 'registrar' %}">Registrate</a>
+                            <input type="submit" value="Iniciar Sesion" class="btn btn-success" style="float: right;">
+                        </form>
+         </div>
+    </div>
+
+
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+    <footer>
+        <div class="row col-12">
+            <div class="col-lg-2">
+                <img src="{% static 'img/planta.png' %}" alt="logoPlanta" width="60px">
+            </div>
+            <div class="col-lg-1">
+                <a href="Maceta_principal.html" id="linkFooter"><strong>INICIO</strong></a>
+            </div>
+            <div class="col-lg-1">
+                <a href="galería.html" id="linkFooter"><strong>Galería</strong></a>
+            </div>
+            <div class="col-lg-2">
+                <strong>SíGUENOS</strong>
+                <br><br>
+                <div class="red-social">
+                <a href="#" class="fa fa-facebook"></a>
+                <a href="#" class="fa fa-instagram"></a>
+                <a href="https://twitter.com/AxelHatForever" class="fa fa-twitter"></a>
+
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <strong>Contacto</strong>
+                <br><br>
+                <div class="row">
+                  <img src="{% static 'img/location.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 15px;">
+                  <p>Av. LaEsquina 432, Maipú</p>
+                </div>
+                <div class="row">
+                  <img src="{% static 'img/fono.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 15px;">
+                  <p>225554000</p>
+                </div>
+                <div class="row">
+                  <img src="{% static 'img/email.png' %}" alt="" width="12px" height="12px"
+                    style="margin-right: 10px; margin-left: 15px;">
+                  <p>consulta@JardinesVencindad.cl</p>
+                </div>
+                <br><br><br>
+                <p>&copy; Jardines Vecindad - 2022</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/e62f6e7512.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/validacion.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+
+</body>
+</html>

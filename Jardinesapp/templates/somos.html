@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en"> 
+<head>
+  <title>Somos</title> 
+  <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaginaPrincipal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="css/bootstrap.min.css"  rel="stylesheet">
+    <link href="css/estilos.css" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <script src="{% static 'js/funciones.js' %}"></script>
+</head>
+<body class="somos" dir="ltr">
+  {% load static %}
+  <nav class="navbar navbar-expand-md navbar-light bg-light mb-4" id="barraNav">
+    <img src="{% static 'img/planta.png' %}" alt="logoPlanta" width="40px">
+</a>
+<!-- botón hamburguesa -->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">  
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'Maceta_principal' %}">Jardinería</a>
+    </li>
+    <li class="nav-item">
+          <a class="nav-link" href="{% url 'somos' %}">Quiénes Somos</a>
+      </li>
+    <li class="nav-item">
+          <a class="nav-link" href="{% url 'galería' %}">Galería</a>
+      </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'contactos' %}">Contáctenos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'api_trabajos' %}">Sobre Nuestros Envios</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'mostrarCL' %}">Clientes</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'MostrarPr' %}">Productos</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'tienda' %}">Tienda</a>
+    </li>
+
+    {% if user.is_authenticated %}
+    
+    <li class="nav-item">
+        <a class="nav-link" href="{%  url 'logout' %}">Cerrar Sesión</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="#">Bienvenido @{{user.username}}</a>
+    </li>
+    {% else %} 
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+    </li>
+
+    </ul>
+    <div>
+    <a class="nav-link" href="{% url 'registrar' %}" id="userBookStop">
+      Registrarse</a>
+    </div>
+    {% endif %}
+
+
+</div>
+</nav>
+
+  <div class="caja1">
+    <div class="texto">Nosotros</div>
+  </div>
+ 
+  <div class="container"> 
+     
+         
+      <div class="col-md">        
+          <div class="card"> 
+            <img class="card-img-top" src="{% static 'img/carta1..jpg' %}">           
+            <div class="card-body">
+                
+              <p class="card-text1">Somos una Empresa que se encarga de la venta y distribución productos de jardinería cuya Misión es aportar y colaborar
+                                  con una fundación en ayuda a niños de escasos recursos. </p>
+            </div>
+          </div>          
+      </div>
+      <div class="col-md">
+          <div class="card">
+            <div class="card-body">
+              <p class="card-text1" style="text-align: center;width: 100%;height: 100%;">Queremos ser una tienda reconocida por su amplio portafolio de productos,
+                 por su aporte al medio ambiente,el reciclaje el respeto hacia los consumidores, entregando un servicio de alta calidad.
+                 <br></br></p>
+            </div>
+            <img class="card-img-top;width: 50%;height: 50%;" src="{% static 'img/mujer.jpg' %}">                        
+          </div>          
+      </div>
+  </div>
+  <div class="padre">
+    <div class="hijo">Haz Clic en el siguiente video para mas información....</div>
+  </div>
+  
+  <div class="video" dir="ltr">
+    <iframe src="https://www.youtube.com/embed/O43FbUHQpcg" 
+      title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
+      clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen height="200"
+      width="300" data-src="https://www.youtube.com/embed/O43FbUHQpcg"></iframe>
+  </div>
+  <footer>
+        <div class="row col-12">
+            <div class="col-lg-2">
+                <img src="{% static 'img/planta.png' %}" alt="logoPlanta" width="60px">
+            </div>
+            <div class="col-lg-1">
+                <a href="{% url 'Maceta_principal' %}" id="linkFooter"><strong>INICIO</strong></a>
+            </div>
+            <div class="col-lg-1">
+                <a href="{% url 'galería' %}" id="linkFooter"><strong>GALERÍA</strong></a>
+            </div>
+            <div class="col-lg-2">
+                <strong>SíGUENOS</strong>
+                <br><br>
+                <div class="red-social">
+                <a href="#" class="fa fa-facebook"></a>
+                <a href="#" class="fa fa-instagram"></a>
+                <a href="https://twitter.com/AxelHatForever" class="fa fa-twitter"></a>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <strong>Contacto</strong>
+                <br><br>
+                <div class="row">
+                  <img src="{% static 'img/location.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 15px;">
+                  <p>Av. LaEsquina 432, Maipú</p>
+                </div>
+                <div class="row">
+                  <img src="{% static 'img/fono.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 15px;">
+                  <p>225554000</p>
+                </div>
+                <div class="row">
+                  <img src="{% static 'img/email.png' %}" alt="" width="12px" height="12px"
+                    style="margin-right: 10px; margin-left: 15px;">
+                  <p>consulta@JardinesVencindad.cl</p>
+                </div>
+                <br><br><br>
+                <p>&copy; Jardines Vecindad - 2022</p>
+            </div>
+        </div>
+  </footer>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
+</body>
+</html>

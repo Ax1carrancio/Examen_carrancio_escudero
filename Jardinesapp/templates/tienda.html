@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="css/bootstrap.min.css"  rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <script src="{% static 'js/funciones.js' %}"></script>
+    <title>Mostrando Productos</title>
+
+    <style>
+        body{
+            font-family: sans-serif;
+            background-color: rgb(222, 235, 205)
+        }
+    
+        button {
+            clear: both;
+            float: left;
+            width: 100px;
+            
+        
+        }
+
+        h5{
+            text-align: center;
+            margin: 5px 5px;
+            font-size: 30px;
+            
+            
+        }
+
+        p{
+            text-align: right;
+            font-size: 20px;
+
+        }
+
+      
+
+      
+
+    
+        
+    
+    
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          // Variables
+          const baseDeDatos = [
+              {
+                  id: 1,
+                  nombre: 'Pala',
+                  precio: 2990,
+                  imagen: "{% static 'img/pala.jpg' %}"
+              },
+              {
+                  id: 2,
+                  nombre: 'Girasol',
+                  precio: 2990,
+                  imagen: "{% static 'img/girasol.jpg' %}"
+              },
+              {
+                  id: 3,
+                  nombre: 'Tierra de Hojas',
+                  precio: 5990,
+                  imagen: "{% static 'img/tierra6.jpg' %}"
+              },
+              {
+                  id: 4,
+                  nombre: 'Macetero',
+                  precio: 3990,
+                  imagen: "{% static 'img/degrade.jpg' %}"
+              }
+
+          ];
+
+          let carrito = [];
+          const divisa = ""
+          const DOMitems = document.querySelector('#items');
+          const DOMcarrito = document.querySelector('#carrito');
+          const DOMtotal = document.querySelector('#total');
+          const DOMbotonVaciar = document.querySelector('#boton-vaciar');
+          const DOMbotonComprar = document.querySelector('#boton-comprar');
+
+          // Funciones
+
+          /**
+          * Dibuja todos los productos a partir de la base de datos. No confundir con el carrito
+          */
+          function renderizarProductos() {
+              baseDeDatos.forEach((info) => {
+                  // Estructura
+                  const miNodo = document.createElement('div');
+                  miNodo.classList.add('card', 'col-md-5');
+                  // Body
+                  const miNodoCardBody = document.createElement('div-body');
+                  miNodoCardBody.classList.add('card-body');
+                  // Titulo
+                  const miNodoTitle = document.createElement('h5');
+                  miNodoTitle.classList.add('card-title');
+                  miNodoTitle.textContent = info.nombre;
+                  // Imagen
+                  const miNodoImagen = document.createElement('img');
+                  miNodoImagen.classList.add('img-fluid');
+                  miNodoImagen.setAttribute('src', info.imagen);
+                  // Precio
+                  const miNodoPrecio = document.createElement('p');
+                  miNodoPrecio.classList.add('card-text');
+                  miNodoPrecio.textContent = `${info.precio}${divisa}`;
+                  // Boton 
+                  const miNodoBoton = document.createElement('button');
+                  miNodoBoton.classList.add('btn', 'btn-success');
+                  miNodoBoton.textContent = '+';
+                  miNodoBoton.style.margin = '5px';
+                  miNodoBoton.style.padding = '5px';
+                  miNodoBoton.setAttribute('marcador', info.id);
+                  miNodoBoton.addEventListener('click', anyadirProductoAlCarrito);
+
+                  // Boton restar
+
+                  const miBoton = document.createElement('button');
+                  miBoton.classList.add('btn', 'btn-danger');
+                  miBoton.textContent = '-';
+                  miBoton.style.margin = '5px';
+                  miBoton.style.padding = '5px';
+                  miBoton.setAttribute('marca', info.id);
+                  miBoton.addEventListener('click', restarProductoAlCarrito);
+                  // Insertamos
+                  miNodoCardBody.appendChild(miNodoImagen);
+                  miNodoCardBody.appendChild(miNodoTitle);
+                  miNodoCardBody.appendChild(miNodoPrecio);
+                  miNodoCardBody.appendChild(miNodoBoton);
+                  miNodoCardBody.appendChild(miBoton);
+                  miNodo.appendChild(miNodoCardBody);
+                  DOMitems.appendChild(miNodo);
+              });
+          }
+
+          /**
+          * Evento para añadir un producto al carrito de la compra
+          */
+          function anyadirProductoAlCarrito(evento) {
+              // Anyadimos el Nodo a nuestro carrito
+              carrito.push(evento.target.getAttribute('marcador'))
+              // Actualizamos el carrito 
+              renderizarCarrito();
+          }
+
+
+              function restarProductoAlCarrito(evento) {
+              // Anyadimos el Nodo a nuestro carrito
+              carrito.pop(evento.target.getAttribute('marca'))
+              // Actualizamos el carrito 
+              renderizarCarrito();
+
+
+          }
+
+          /**
+          * Dibuja todos los productos guardados en el carrito
+          */
+          function renderizarCarrito() {
+              // Vaciamos todo el html
+              DOMcarrito.textContent = '';
+              // Quitamos los duplicados
+              const carritoSinDuplicados = [...new Set(carrito)];
+              // Generamos los Nodos a partir de carrito
+              carritoSinDuplicados.forEach((item) => {
+                  // Obtenemos el item que necesitamos de la variable base de datos
+                  const miItem = baseDeDatos.filter((itemBaseDatos) => {
+                      // ¿Coincide las id? Solo puede existir un caso
+                      return itemBaseDatos.id === parseInt(item);
+                  });
+                  // Cuenta el número de veces que se repite el producto
+                  const numeroUnidadesItem = carrito.reduce((total, itemId) => {
+                      // ¿Coincide las id? Incremento el contador, en caso contrario no mantengo
+                      return itemId === item ? total += 1 : total;
+                  }, 0);
+                  // Creamos el nodo del item del carrito
+                  const miNodo = document.createElement('li');
+                  miNodo.classList.add('list-group-item', 'text-right', 'mx-2');
+                  miNodo.textContent = `${numeroUnidadesItem} x ${miItem[0].nombre} - ${miItem[0].precio}`;
+                  // Boton de borrar
+                  const miBoton = document.createElement('button');
+                  miBoton.classList.add('btn', 'btn-danger', 'mx-2');
+                  miBoton.textContent = 'X';
+                  miBoton.style.margin = '5px';
+                  miBoton.style.padding = '5px';
+                  miBoton.dataset.item = item;
+                  miBoton.addEventListener('click', borrarItemCarrito);
+                  // Mezclamos nodos
+                  miNodo.appendChild(miBoton);
+                  DOMcarrito.appendChild(miNodo);
+              });
+             // Renderizamos el precio total en el HTML
+             DOMtotal.textContent = calcularTotal();
+          }
+
+          /**
+          * Evento para borrar un elemento del carrito
+          */
+          function borrarItemCarrito(evento) {
+              // Obtenemos el producto ID que hay en el boton pulsado
+              const id = evento.target.dataset.item;
+              // Borramos todos los productos
+              carrito = carrito.filter((carritoId) => {
+                  return carritoId !== id;
+              });
+              // volvemos a renderizar
+              renderizarCarrito();
+          }
+
+          /**
+           * Calcula el precio total teniendo en cuenta los productos repetidos
+           */
+          function calcularTotal() {
+              // Recorremos el array del carrito 
+              return carrito.reduce((total, item) => {
+                  // De cada elemento obtenemos su precio
+                  const miItem = baseDeDatos.filter((itemBaseDatos) => {
+                      return itemBaseDatos.id === parseInt(item);
+                  });
+                  // Los sumamos al total
+                  return total + miItem[0].precio;
+              }, 0).toFixed();
+          }
+
+          /**
+          * Varia el carrito y vuelve a dibujarlo
+          */
+          function vaciarCarrito() {
+              // Limpiamos los productos guardados
+              carrito = [];
+              // Renderizamos los cambios
+              renderizarCarrito();
+          }
+
+          function comprarCarrito() {
+              // Limpiamos los productos guardados
+              carrito = [info.nombre,info.imagen,info.precio,info.id];
+              // Renderizamos los cambios
+              renderizarCarrito();
+          }
+
+          // Eventos
+          DOMbotonVaciar.addEventListener('click', vaciarCarrito);
+          DOMbotonVaciar.addEventListener('click', comprarCarrito);
+    
+    
+
+
+          // Inicio
+          renderizarProductos();
+          renderizarCarrito();
+        });
+    </script>
+</head>
+<body >
+    {% load static %}
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4" id="barraNav">
+          <img src="{% static 'img/planta.png' %}" alt="logoPlanta" width="40px">
+      </a>
+      <!-- botón hamburguesa -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">  
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'Maceta_principal' %}">Jardinería</a>
+            </li>
+            <li class="nav-item">
+                  <a class="nav-link" href="{% url 'somos' %}">Quiénes Somos</a>
+              </li>
+            <li class="nav-item">
+                  <a class="nav-link" href="{% url 'galería' %}">Galería</a>
+              </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'contactos' %}">Contáctenos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'api_trabajos' %}">Sobre Nuestros Envios</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'mostrarCL' %}">Clientes</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'MostrarPr' %}">Productos</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'tienda' %}">Tienda</a>
+            </li>
+
+            {% if user.is_authenticated %}
+            
+            <li class="nav-item">
+                <a class="nav-link" href="{%  url 'logout' %}">Cerrar Sesión</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#">Bienvenido @{{user.username}}</a>
+            </li>
+            {% else %} 
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+            </li>
+
+            </ul>
+            <div>
+            <a class="nav-link" href="{% url 'registrar' %}" id="userBookStop">
+              Registrarse</a>
+            </div>
+            {% endif %}
+
+      
+      </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <!-- Elementos generados a partir del JSON -->
+            <main id="items" class="col-sm-8 row"></main>
+            <!-- Carrito -->
+            <aside class="col-sm-4">
+                <h2>Carrito</h2>
+                <!-- Elementos del carrito -->
+                <ul id="carrito" class="list-group"></ul>
+                <hr>
+                <!-- Precio total -->
+                <p class="text-right">Total: $<span id="total"></span></p>
+                <button id="boton-vaciar" class="btn btn-danger">Vaciar</button> 
+                <a href="{% url 'seguimiento' %}" button id="boton-comprar" class="btn btn-primary ">Comprar</button>
+                
+            </aside>
+        </div>
+    </div>
+    <footer>
+        <div class="row col-12">
+            <div class="col-lg-2">
+                <img src="{% static 'img/planta.png' %}" alt="logoPlanta" width="60px">
+            </div>
+            <div class="col-lg-1">
+                <a href="{% url 'Maceta_principal' %}" id="linkFooter"><strong>INICIO</strong></a>
+            </div>
+            <div class="col-lg-1">
+                <a href="{% url 'galería' %}"><strong>GALERÍA</strong></a>
+            </div>
+            <div class="col-lg-2">
+                <strong>SÍGUENOS</strong>
+                <br><br>
+                <div class="red-social">
+                <a href="#" class="fa fa-facebook"></a>
+                <a href="#" class="fa fa-instagram"></a>
+                <a href="https://twitter.com/AxelHatForever" class="fa fa-twitter"></a>
+
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <strong>Contacto</strong>
+                <br><br>
+                <div class="row">
+                  <img src="{% static 'img/location.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 15px;">
+                  <p>Av. LaEsquina 432, Maipú</p>
+                </div>
+                <div class="row">
+                  <img src="{% static 'img/fono.png' %}" alt="" width="20px" height="20px"
+                    style="margin-right: 10px; margin-left: 15px;">
+                  <p>225554000</p>
+                </div>
+                <div class="row">
+                  <img src="{% static 'img/email.png' %}" alt="" width="12px" height="12px"
+                    style="margin-right: 10px; margin-left: 15px;">
+                  <p>consulta@JardinesVencindad.cl</p>
+                </div>
+                <br><br><br>
+                <p>&copy; Jardines Vecindad - 2022</p>
+            </div>
+        </div>
+    </footer>
+
+ <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
+
+</body>
+</html>
